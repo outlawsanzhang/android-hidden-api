@@ -1,5 +1,6 @@
 name: Android Create Jar
 
+# Only run manually
 on: workflow_dispatch
 
 jobs:
@@ -15,7 +16,7 @@ jobs:
         sudo udevadm trigger --name-match=kvm
 
     - name: Run emulator
-      uses: reactivecircus/android-emulator-runner@v2
+      uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
       with:
         api-level: "37.0"
         target: google_apis_ps16k
