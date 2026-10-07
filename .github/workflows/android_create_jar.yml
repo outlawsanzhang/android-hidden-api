@@ -29,3 +29,12 @@ jobs:
       with:
         path: ./android-37-custom.jar
         archive: false
+
+    - name: Release jar
+      run: |
+        TAG="37.0"
+        if ! gh release view "$TAG"; then
+          gh release create --title "Hidden API jar for SDK version $TAG" --target empty "$TAG"
+        fi
+        gh release edit --notes "Android hidden API jar built by GitHub Actions" "$TAG"
+        gh release upload --clobber "$TAG" "./android-37-custom.jar"
