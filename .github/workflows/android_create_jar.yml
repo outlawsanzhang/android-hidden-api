@@ -7,6 +7,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Ensure release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        TAG="37.0"
+        if ! gh release view "$TAG"; then
+          gh release create --title "Hidden API jar for SDK version $TAG" --target empty "$TAG"
+        fi
     - name: Checkout
       uses: actions/checkout@v7
     - name: Enable KVM group perms
@@ -31,10 +39,9 @@ jobs:
         archive: false
 
     - name: Release jar
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         TAG="37.0"
-        if ! gh release view "$TAG"; then
-          gh release create --title "Hidden API jar for SDK version $TAG" --target empty "$TAG"
-        fi
         gh release edit --notes "Android hidden API jar built by GitHub Actions" "$TAG"
         gh release upload --clobber "$TAG" "./android-37-custom.jar"
