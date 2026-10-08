@@ -15,7 +15,7 @@ jobs:
       run: |
         TAG="37.0"
         if ! gh release view "$TAG"; then
-          gh release create --target master --title "Hidden API jar for SDK version $TAG" --target empty "$TAG"
+          gh release create --title "Hidden API jar for SDK version $TAG" "$TAG"
         fi
     - name: Enable KVM group perms
       run: |
